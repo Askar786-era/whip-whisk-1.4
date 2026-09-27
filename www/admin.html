@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whip & Whisk | Admin Management Portal</title>
+  <meta name="description" content="Dedicated Admin Dashboard for Whip & Whisk Bake Sale. Manage customer orders, rate fixing, catalog prices, and database records.">
+  
+  <!-- Fonts: Cormorant Garamond & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="admin.css">
+  <link rel="icon" type="image/jpeg" href="assets/images/logo.jpg">
+</head>
+<body>
+
+  <!-- ADMIN AUTHENTICATION LOCK MODAL -->
+  <div class="auth-overlay" id="adminAuthModal">
+    <div class="auth-card">
+      <div class="auth-badge">👑 RESTRICTED ACCESS</div>
+      <img src="assets/images/logo.jpg" alt="Whip & Whisk Logo" class="auth-logo">
+      <h2 class="auth-title">Admin Portal Verification</h2>
+      <p class="auth-subtitle">Enter secret Admin PIN to manage orders, database records, and catalog rates.</p>
+      
+      <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
+        <div class="form-group">
+          <label for="adminPinInput">Admin PIN Code</label>
+          <input type="password" id="adminPinInput" class="auth-input" placeholder="Default PIN: 2025" required autofocus autocomplete="off">
+          <span class="auth-error-msg" id="authErrorMsg">Incorrect PIN. Please try again.</span>
+        </div>
+        <button type="submit" class="btn-primary-auth">Unlock Dashboard &rarr;</button>
+      </form>
+      <div class="auth-footer">
+        <a href="index.html" class="back-link">&larr; Return to Customer Storefront</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN ADMIN DASHBOARD INTERFACE -->
+  <div class="admin-wrapper" id="adminDashboard" style="display: none;">
+    
+    <!-- TOP NAVIGATION BAR -->
+    <header class="admin-header">
+      <div class="header-brand">
+        <img src="assets/images/logo.jpg" alt="Whip & Whisk Logo" class="admin-logo">
+        <div>
+          <h1 class="brand-title">Whip & Whisk</h1>
+          <span class="brand-tag">Central Command &amp; Database Hub</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button class="sound-toggle-btn" id="soundToggleBtn" onclick="toggleSoundNotifications()" title="Toggle Audio Notifications">
+          <span id="soundIcon">🔔</span> Sound Alerts: <strong id="soundStatus">ON</strong>
+        </button>
+        <button class="btn-refresh" onclick="refreshAdminData()" title="Sync with Database">
+          🔄 Sync Database
+        </button>
+        <a href="index.html" class="btn-view-store">
+          🛒 Customer Storefront
+        </a>
+        <button class="btn-logout" onclick="logoutAdmin()">
+          🔒 Lock Session
+        </button>
+      </div>
+    </header>
+
+    <!-- CONTENT CONTAINER -->
+    <main class="admin-main">
+      
+      <!-- STATS KPI OVERVIEW CARDS -->
+      <section class="kpi-grid">
+        <div class="kpi-card gold-card">
+          <div class="kpi-icon">💰</div>
+          <div class="kpi-details">
+            <span class="kpi-label">Total Bake Sale Revenue</span>
+            <h3 class="kpi-value" id="kpiRevenue">₹0.00</h3>
+            <span class="kpi-subtext">All confirmed customer orders</span>
+          </div>
+        </div>
+
+        <div class="kpi-card purple-card">
+          <div class="kpi-icon">📦</div>
+          <div class="kpi-details">
+            <span class="kpi-label">Total Orders Placed</span>
+            <h3 class="kpi-value" id="kpiTotalOrders">0</h3>
+            <span class="kpi-subtext">Recorded in database</span>
+          </div>
+        </div>
+
+        <div class="kpi-card orange-card">
+          <div class="kpi-icon">⏳</div>
+          <div class="kpi-details">
+            <span class="kpi-label">Pending / Preparing</span>
+            <h3 class="kpi-value" id="kpiPendingOrders">0</h3>
+            <span class="kpi-subtext" id="kpiPendingSub">Needs kitchen dispatch</span>
+          </div>
+        </div>
+
+        <div class="kpi-card green-card">
+          <div class="kpi-icon">✅</div>
+          <div class="kpi-details">
+            <span class="kpi-label">Successfully Delivered</span>
+            <h3 class="kpi-value" id="kpiDeliveredOrders">0</h3>
+            <span class="kpi-subtext">Completed treats</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- NAVIGATION TABS -->
+      <nav class="admin-tabs">
+        <button class="tab-btn active" id="tabOrdersBtn" onclick="switchAdminTab('orders')">
+          📋 Orders Management (<span id="tabOrderCount">0</span>)
+        </button>
+        <button class="tab-btn" id="tabRatesBtn" onclick="switchAdminTab('rates')">
+          🏷️ Catalog &amp; Rate Fixing
+        </button>
+        <button class="tab-btn" id="tabInquiriesBtn" onclick="switchAdminTab('inquiries')">
+          💌 Customer Inquiries (<span id="tabInquiryCount">0</span>)
+        </button>
+      </nav>
+
+      <!-- TAB 1: ORDERS MANAGEMENT TABLE -->
+      <section class="tab-content active" id="tabOrders">
+        <div class="section-toolbar">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="orderSearchInput" oninput="filterOrdersTable()" placeholder="Search by Order ID, Customer Name, Phone...">
+          </div>
+          <div class="filter-actions">
+            <select id="statusFilterSelect" onchange="filterOrdersTable()">
+              <option value="ALL">All Order Statuses</option>
+              <option value="Pending">Pending</option>
+              <option value="Preparing">Preparing</option>
+              <option value="Dispatched">Dispatched</option>
+              <option value="Delivered">Delivered</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+            <button class="btn-export" onclick="exportOrdersToCSV()">📥 Export CSV</button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="data-table" id="ordersTable">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Date &amp; Time</th>
+                <th>Customer</th>
+                <th>Delivery Date</th>
+                <th>Items Ordered</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody">
+              <tr>
+                <td colspan="8" class="empty-state">Loading database orders...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 2: CATALOG & RATE FIXING -->
+      <section class="tab-content" id="tabRates" style="display: none;">
+        <div class="tab-header">
+          <div>
+            <h2>Storefront Price &amp; Catalog Controller</h2>
+            <p>Update item rates, descriptions, or add new artisan treats dynamically to your live storefront.</p>
+          </div>
+        </div>
+
+        <div class="products-rate-grid" id="adminProductsGrid">
+          <!-- Populated by admin.js -->
+        </div>
+      </section>
+
+      <!-- TAB 3: CUSTOMER INQUIRIES -->
+      <section class="tab-content" id="tabInquiries" style="display: none;">
+        <div class="tab-header">
+          <h2>Customer Messages &amp; Contact Inquiries</h2>
+          <p>Read customer inquiries submitted through the main contact form.</p>
+        </div>
+
+        <div class="inquiries-list" id="inquiriesList">
+          <!-- Populated by admin.js -->
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ORDER DETAIL MODAL -->
+  <div class="modal-overlay" id="orderDetailModal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalOrderTitle">Order Details</h3>
+        <button class="modal-close" onclick="closeOrderDetailModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modalOrderBody">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Notification Player -->
+  <audio id="orderAudioChime" preload="auto">
+    <source src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" type="audio/mpeg">
+  </audio>
+
+  <script src="admin.js"></script>
+</body>
+</html>

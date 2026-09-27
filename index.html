@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whip & Whisk Bake Sale | Fresh Artisan Treats for a Cause</title>
+  <meta name="description" content="Welcome to Whip & Whisk Bake Sale! Satisfy your cravings with handmade fudge brownies, cookie tins, heart brownie pops, and celebration bento cakes for a cause.">
+  
+  <!-- Google Fonts: Cormorant Garamond for the high-fashion editorial serif aesthetic, and Plus Jakarta Sans for crisp modern typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/jpeg" href="assets/images/logo.jpg">
+</head>
+<body>
+
+  <!-- Top Announcement Bar & Sticky Header -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-container">
+      <a href="#hero" class="brand-identity">
+        <img src="assets/images/logo.jpg" alt="Whip & Whisk Logo" class="brand-avatar">
+        <span class="brand-text">Whip & Whisk</span>
+      </a>
+
+      <nav class="nav-menu" id="navMenu">
+        <a href="#hero" class="nav-link">Home</a>
+        <a href="#take-a-bite" class="nav-link">Menu &amp; Treats</a>
+        <a href="#charity" class="nav-link">Our Cause</a>
+        <a href="#delivery" class="nav-link">Delivery</a>
+        <a href="#contact" class="nav-link">Contact</a>
+        <a href="admin.html" class="nav-link admin-nav-link" id="navAdminLink">👑 Admin Portal</a>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Account / Sign In Trigger Button -->
+        <button class="account-trigger-btn" id="accountTriggerBtn" aria-label="Account Login & Portal" onclick="handleAccountBtnClick()">
+          <span class="account-icon" id="accountIcon">👤</span>
+          <span class="account-label" id="accountBtnLabel">Sign In</span>
+        </button>
+
+        <button class="cart-trigger-btn" id="cartTriggerBtn" aria-label="View Order Cart">
+          <span class="cart-icon">🛒</span>
+          <span class="cart-label">Cart</span>
+          <span class="cart-count-badge" id="cartBadge">0</span>
+        </button>
+        <button class="mobile-toggle-btn" id="mobileToggleBtn" aria-label="Toggle navigation menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION: Split Screen (Lavender Block + High-Impact Bakery Showcase) -->
+    <section class="hero-section" id="hero">
+      <div class="hero-left-panel">
+        <div class="hero-content-wrapper">
+          <span class="hero-tagline">WHIP &amp; WHISK CO.</span>
+          <h1 class="hero-title">Whip &amp; Whisk<br>Bake Sale</h1>
+          <p class="hero-subtitle">SATISFY CRAVINGS FOR A CAUSE<br>FROM JANUARY 1-4, 2025</p>
+          <div class="hero-cta-group">
+            <button class="btn-outline" id="heroShopOnlineBtn">Shop Online</button>
+            <a href="#take-a-bite" class="btn-secondary-link">View Menu &darr;</a>
+          </div>
+        </div>
+      </div>
+      <div class="hero-right-panel">
+        <div class="hero-image-container">
+          <img src="assets/images/hero_bakery_display.jpg" alt="Whip & Whisk Freshly Baked Treats Showcase" class="hero-display-img">
+          <div class="hero-floating-badge">
+            <img src="assets/images/logo.jpg" alt="Whip & Whisk Chef Logo" class="badge-mini-logo">
+            <div class="badge-content">
+              <strong>100% Handcrafted</strong>
+              <span>Baked with Pure Love ❤️</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: "Take a bite!" (3 Iconic Shaped Display Cards) -->
+    <section class="take-a-bite-section" id="take-a-bite">
+      <div class="container">
+        <div class="section-title-wrap">
+          <h2 class="section-display-heading">Take a bite!</h2>
+          <p class="section-subtext">Click any treat to order or view details</p>
+        </div>
+
+        <div class="treats-showcase-grid">
+          <!-- Card 1: Rectangular Frame with Double Border (Cookies) -->
+          <div class="treat-card card-style-box" data-item="cookie-tin">
+            <div class="card-frame frame-box" tabindex="0" role="button" aria-label="View Soft Baked Cookie Tin">
+              <img src="assets/images/cookie_tin.jpg" alt="Fresh Soft Baked Cookie Tin" class="treat-img">
+              <div class="card-hover-overlay">
+                <span class="quick-view-text">Quick Order +</span>
+              </div>
+            </div>
+            <div class="card-info">
+              <h3 class="treat-name">YUMMY COOKIES</h3>
+              <p class="treat-desc">Chocolate chip, oatmeal raisin &amp; golden butter tin favorites</p>
+              <div class="treat-action-row">
+                <span class="treat-price" id="price-cookie-tin">₹14.00 / tin</span>
+                <button class="mini-order-btn" onclick="openOrderModalWithItem('cookie-tin')">Order Now</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Arch Shape Frame (Cakes) -->
+          <div class="treat-card card-style-arch" data-item="bento-cake">
+            <div class="card-frame frame-arch" tabindex="0" role="button" aria-label="View Celebration Bento Cake">
+              <img src="assets/images/bento_cake.jpg" alt="Festive Chocolate Bento Cake with Sprinkles" class="treat-img">
+              <div class="card-hover-overlay">
+                <span class="quick-view-text">Quick Order +</span>
+              </div>
+            </div>
+            <div class="card-info">
+              <h3 class="treat-name">MOUTHWATERING CAKES</h3>
+              <p class="treat-desc">Mini bento chocolate cakes, rainbow sprinkles &amp; white chips</p>
+              <div class="treat-action-row">
+                <span class="treat-price" id="price-bento-cake">₹18.00 / cake</span>
+                <button class="mini-order-btn" onclick="openOrderModalWithItem('bento-cake')">Order Now</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Circular Frame (Heart Brownie Pops) -->
+          <div class="treat-card card-style-circle" data-item="brownie-pops">
+            <div class="card-frame frame-circle" tabindex="0" role="button" aria-label="View Heart Brownie Pops">
+              <img src="assets/images/heart_brownie_pops.jpg" alt="Handcrafted Heart Brownie Pops with Golden Ribbons" class="treat-img">
+              <div class="card-hover-overlay">
+                <span class="quick-view-text">Quick Order +</span>
+              </div>
+            </div>
+            <div class="card-info">
+              <h3 class="treat-name">HEART BROWNIE POPS</h3>
+              <p class="treat-desc">Ribbon-tied brownie popsicles, sprinkles &amp; chocolate skewers</p>
+              <div class="treat-action-row">
+                <span class="treat-price" id="price-brownie-pops">₹12.00 / set</span>
+                <button class="mini-order-btn" onclick="openOrderModalWithItem('brownie-pops')">Order Now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 3: "All proceeds of this bake sale go to" (Cream Background) -->
+    <section class="charity-cause-section" id="charity">
+      <div class="container charity-container">
+        <div class="charity-left-column">
+          <h2 class="charity-headline">All proceeds<br>of this bake<br>sale go to</h2>
+          <div class="cause-ribbon">
+            <span class="ribbon-heart">💖</span>
+            <span class="ribbon-text">Every rupee makes a meaningful difference</span>
+          </div>
+        </div>
+
+        <div class="charity-right-column">
+          <ul class="beneficiaries-list">
+            <li class="beneficiary-item">
+              <div class="beneficiary-bullet"></div>
+              <div class="beneficiary-text">
+                <h3 class="beneficiary-name">Lily River Children's Foundation</h3>
+                <p class="beneficiary-desc">Providing pediatric medical care, smiles, and warm educational support for children in need.</p>
+              </div>
+            </li>
+            <li class="beneficiary-item">
+              <div class="beneficiary-bullet"></div>
+              <div class="beneficiary-text">
+                <h3 class="beneficiary-name">Marine Conservational Society</h3>
+                <p class="beneficiary-desc">Protecting coastal ecosystems, coral reefs, and marine wildlife habitats through volunteer beach cleanups.</p>
+              </div>
+            </li>
+            <li class="beneficiary-item">
+              <div class="beneficiary-bullet"></div>
+              <div class="beneficiary-text">
+                <h3 class="beneficiary-name">The Newark Family</h3>
+                <p class="beneficiary-desc">Direct community recovery fund providing heartfelt relief, groceries, and warmth during hard times.</p>
+              </div>
+            </li>
+          </ul>
+
+          <!-- Live Impact Progress Tracker -->
+          <div class="fundraiser-progress-card">
+            <div class="progress-top-stats">
+              <span class="stat-label">Bake Sale Goal Progress</span>
+              <span class="stat-figures"><strong>₹3,850</strong> raised of ₹5,000 goal</span>
+            </div>
+            <div class="progress-bar-track">
+              <div class="progress-bar-fill" style="width: 77%;"></div>
+            </div>
+            <div class="progress-footer-note">
+              <span>77% Reached &bull; 142 Generous Sweet Lovers</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: "We deliver anywhere!" (Split Photo + Lavender Block) -->
+    <section class="delivery-section" id="delivery">
+      <div class="delivery-left-panel">
+        <div class="delivery-image-wrapper">
+          <img src="assets/images/fudge_brownies_box.jpg" alt="Fresh Artisan Brownies Ready for Delivery" class="delivery-feature-img">
+          <div class="delivery-badge-chip">
+            <span>✨ Freshly Baked &amp; Sealed</span>
+          </div>
+        </div>
+      </div>
+      <div class="delivery-right-panel">
+        <div class="delivery-content-box">
+          <h2 class="delivery-heading">We deliver<br>anywhere!</h2>
+          <p class="delivery-note">Packaged safely with custom cooling pads &amp; decorative gift boxes. Same-day local delivery &amp; express doorstep shipping available!</p>
+          <button class="btn-outline delivery-action-btn" id="openOrderFormBtn">
+            Click here for the order form
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: "We'd love to hear from you!" / Contact Section (Blush Pink) -->
+    <section class="contact-footer-section" id="contact">
+      <div class="container contact-container">
+        <div class="contact-left-col">
+          <h2 class="contact-heading">We'd love to<br>hear from<br>you!</h2>
+          <div class="contact-brand-seal">
+            <img src="assets/images/logo.jpg" alt="Whip & Whisk Logo Emblem" class="footer-logo">
+            <p class="footer-motto">Baking happiness, one treat at a time.</p>
+          </div>
+        </div>
+
+        <div class="contact-right-col">
+          <div class="contact-block">
+            <h4 class="contact-label">MAIN SHOP</h4>
+            <p class="contact-value">123 Anywhere St., Any City, Any State</p>
+          </div>
+
+          <div class="contact-block">
+            <h4 class="contact-label">INSTAGRAM / FACEBOOK / TWITTER</h4>
+            <p class="contact-value">
+              <a href="https://instagram.com" target="_blank" rel="noopener" class="social-link">@whipandwhisk</a>
+              <span class="divider">&bull;</span>
+              <a href="https://facebook.com" target="_blank" rel="noopener" class="social-link">fb/whipandwhisk</a>
+            </p>
+          </div>
+
+          <div class="contact-block">
+            <h4 class="contact-label">PHONE NUMBER</h4>
+            <p class="contact-value">
+              <a href="tel:1234567890" class="tel-link">(123) 456 7890</a>
+            </p>
+          </div>
+
+          <!-- Quick Message Drop-in Form -->
+          <div class="quick-contact-box">
+            <h5 class="quick-box-title">Send a sweet message or custom inquiry</h5>
+            <form id="contactForm" onsubmit="handleContactSubmit(event)">
+              <div class="input-row">
+                <input type="text" id="contactName" placeholder="Your Name" required>
+                <input type="email" id="contactEmail" placeholder="Your Email" required>
+              </div>
+              <textarea id="contactMessage" rows="2" placeholder="Tell us about your event, favorite flavor, or questions..." required></textarea>
+              <button type="submit" class="contact-submit-btn">Send Message &rarr;</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Bar with Dedicated Admin Link -->
+      <div class="site-bottom-bar">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <span>&copy; 2025 Whip &amp; Whisk Bake Sale. Satisfy cravings for a cause.</span>
+          <a href="admin.html" style="color: #6A525C; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+            👑 Bakery Administration Portal &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- INTERACTIVE ORDER FORM / CART MODAL -->
+  <div class="order-modal-backdrop" id="orderModalBackdrop" aria-hidden="true">
+    <div class="order-modal" role="dialog" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <div>
+          <h3 id="modalTitle" class="modal-title">Order for the Bake Sale</h3>
+          <p class="modal-desc">Select your handcrafted treats &amp; choose delivery options</p>
+        </div>
+        <button class="modal-close-btn" id="closeOrderModalBtn" aria-label="Close Order Modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <form id="bakeSaleOrderForm" onsubmit="handlePlaceOrder(event)">
+          <!-- Item Selectors -->
+          <div class="order-items-selection" id="orderItemsContainer">
+            <h4 class="order-step-title">1. Select Your Delights</h4>
+            <div class="order-items-list" id="orderItemsList">
+              <!-- Dynamically populated by script.js -->
+            </div>
+          </div>
+
+          <!-- Customer & Delivery Information -->
+          <div class="order-delivery-fields">
+            <h4 class="order-step-title">2. Delivery &amp; Contact Details</h4>
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="orderCustomerName">Your Name *</label>
+                <input type="text" id="orderCustomerName" placeholder="Jane Doe" required>
+              </div>
+              <div class="form-group">
+                <label for="orderCustomerPhone">Phone Number *</label>
+                <input type="tel" id="orderCustomerPhone" placeholder="(555) 000-1234" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="orderCustomerAddress">Delivery Address *</label>
+              <input type="text" id="orderCustomerAddress" placeholder="Street Address, Apt, Suite, City, Zip" required>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="orderDeliveryDate">Preferred Delivery Date *</label>
+                <input type="date" id="orderDeliveryDate" required>
+              </div>
+              <div class="form-group">
+                <label for="orderCauseChoice">Designate Your Cause *</label>
+                <select id="orderCauseChoice" required>
+                  <option value="all">Split equally to all 3 causes</option>
+                  <option value="children">Lily River Children's Foundation</option>
+                  <option value="marine">Marine Conservational Society</option>
+                  <option value="family">The Newark Family Support</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="orderNotes">Special Instructions or Gift Note</label>
+              <textarea id="orderNotes" rows="2" placeholder="e.g., Leave on the front porch, allergies, happy birthday note..."></textarea>
+            </div>
+          </div>
+
+          <!-- Order Summary & Checkout Action -->
+          <div class="order-summary-box">
+            <div class="summary-line">
+              <span>Subtotal:</span>
+              <span id="orderSubtotal">₹0.00</span>
+            </div>
+            <div class="summary-line">
+              <span>Delivery Fee:</span>
+              <span id="orderDeliveryFee">₹0.00</span>
+            </div>
+            <div class="summary-line total-line">
+              <strong>Grand Total (100% Proceeds Donated):</strong>
+              <strong id="orderGrandTotal">₹0.00</strong>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn-cancel" onclick="closeOrderModal()">Cancel</button>
+            <button type="submit" class="btn-primary-order" id="submitOrderBtn">Confirm Order &amp; Donate &rarr;</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTHENTICATION MODAL: SEPARATE DIVS FOR OLD LOGIN & NEW LOGIN -->
+  <div class="order-modal-backdrop auth-modal-backdrop" id="authModalBackdrop" aria-hidden="true">
+    <div class="order-modal auth-modal-dialog" role="dialog" aria-labelledby="authModalTitle">
+      <div class="modal-header">
+        <div>
+          <h3 id="authModalTitle" class="modal-title">Sweet Lovers Account</h3>
+          <p class="modal-desc">Sign in or create your sweet account to track orders &amp; support causes</p>
+        </div>
+        <button class="modal-close-btn" id="closeAuthModalBtn" onclick="closeAuthModal()" aria-label="Close Login Modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Separate Tab Switcher for Old Login vs New Login -->
+        <div class="auth-tabs-nav" role="tablist">
+          <button type="button" class="auth-tab-btn active" id="tabOldLoginBtn" onclick="switchAuthTab('old')">
+            <span>🔑</span> Existing User (Sign In)
+          </button>
+          <button type="button" class="auth-tab-btn" id="tabNewLoginBtn" onclick="switchAuthTab('new')">
+            <span>✨</span> New User (Register)
+          </button>
+        </div>
+
+        <!-- DIV 1: OLD LOGIN / EXISTING USER SIGN-IN -->
+        <div class="auth-tab-panel active" id="panelOldLogin">
+          <div class="auth-section-badge">Welcome Back!</div>
+          <p class="auth-panel-intro">Sign in to your existing account to view past orders, tracked deliveries, and saved details.</p>
+          <form id="oldLoginForm" onsubmit="handleOldLoginSubmit(event)">
+            <div class="form-group">
+              <label for="oldLoginIdentifier">Email Address or Phone *</label>
+              <input type="text" id="oldLoginIdentifier" placeholder="jane@example.com or (555) 234-5678" required autocomplete="username">
+            </div>
+            <div class="form-group">
+              <label for="oldLoginPassword">Password *</label>
+              <div class="password-input-wrap">
+                <input type="password" id="oldLoginPassword" placeholder="••••••••" required autocomplete="current-password">
+                <button type="button" class="btn-toggle-pwd" onclick="togglePasswordVisibility('oldLoginPassword', this)" title="Show/Hide Password">👁️</button>
+              </div>
+            </div>
+
+            <div class="auth-helper-row">
+              <label class="remember-label">
+                <input type="checkbox" id="rememberMeCheckbox" checked>
+                <span>Remember me</span>
+              </label>
+              <a href="javascript:void(0)" onclick="handleForgotPassword()" class="forgot-pwd-link">Forgot password?</a>
+            </div>
+
+            <div class="auth-actions-stack">
+              <button type="submit" class="btn-primary-order w-100">Sign In to Your Account &rarr;</button>
+              <button type="button" class="btn-demo-shortcut" onclick="quickDemoCustomerLogin()">
+                ⚡ Quick Fill: Demo Customer (Jane Doe)
+              </button>
+            </div>
+
+            <div class="auth-switch-prompt">
+              <span>Don't have an account yet?</span>
+              <button type="button" class="btn-text-switch" onclick="switchAuthTab('new')">Create New Account &rarr;</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- DIV 2: NEW LOGIN / NEW USER REGISTRATION -->
+        <div class="auth-tab-panel" id="panelNewLogin">
+          <div class="auth-section-badge new-user-badge">First Time Here?</div>
+          <p class="auth-panel-intro">Create a fresh customer account in under a minute. Support community causes with every bite!</p>
+          <form id="newLoginForm" onsubmit="handleNewLoginSubmit(event)">
+            <div class="form-group">
+              <label for="newLoginName">Full Name *</label>
+              <input type="text" id="newLoginName" placeholder="Jane Doe" required autocomplete="name">
+            </div>
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="newLoginEmail">Email Address *</label>
+                <input type="email" id="newLoginEmail" placeholder="jane@example.com" required autocomplete="email">
+              </div>
+              <div class="form-group">
+                <label for="newLoginPhone">Phone Number *</label>
+                <input type="tel" id="newLoginPhone" placeholder="(555) 234-5678" required autocomplete="tel">
+              </div>
+            </div>
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="newLoginPassword">Create Password *</label>
+                <div class="password-input-wrap">
+                  <input type="password" id="newLoginPassword" placeholder="At least 6 characters" required autocomplete="new-password" minlength="4">
+                  <button type="button" class="btn-toggle-pwd" onclick="togglePasswordVisibility('newLoginPassword', this)" title="Show/Hide Password">👁️</button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="newLoginPasswordConfirm">Confirm Password *</label>
+                <div class="password-input-wrap">
+                  <input type="password" id="newLoginPasswordConfirm" placeholder="Re-type password" required autocomplete="new-password" minlength="4">
+                  <button type="button" class="btn-toggle-pwd" onclick="togglePasswordVisibility('newLoginPasswordConfirm', this)" title="Show/Hide Password">👁️</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="auth-actions-stack">
+              <button type="submit" class="btn-primary-order w-100">Create Account &amp; Join Bake Sale &rarr;</button>
+            </div>
+
+            <div class="auth-switch-prompt">
+              <span>Already registered?</span>
+              <button type="button" class="btn-text-switch" onclick="switchAuthTab('old')">Sign In with Existing Account &rarr;</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMER PROFILE & ORDER HISTORY MODAL -->
+  <div class="order-modal-backdrop customer-modal-backdrop" id="customerModalBackdrop" aria-hidden="true">
+    <div class="order-modal customer-modal-dialog" role="dialog" aria-labelledby="customerProfileTitle">
+      <div class="modal-header">
+        <div>
+          <span class="customer-badge">CUSTOMER ACCOUNT</span>
+          <h3 id="customerProfileTitle" class="modal-title">Welcome Back, <span id="customerGreetingName">Sweet Lover</span>!</h3>
+          <p class="modal-desc" id="customerGreetingEmail">Track your bake sale orders &amp; support causes</p>
+        </div>
+        <button class="modal-close-btn" id="closeCustomerModalBtn" onclick="closeCustomerModal()" aria-label="Close Profile">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="customer-stats-grid">
+          <div class="cust-stat-card">
+            <span class="cust-stat-val" id="custStatOrdersCount">0</span>
+            <span class="cust-stat-lbl">Orders Placed</span>
+          </div>
+          <div class="cust-stat-card">
+            <span class="cust-stat-val" id="custStatTotalDonated">₹0.00</span>
+            <span class="cust-stat-lbl">Total Donated</span>
+          </div>
+        </div>
+
+        <div class="customer-orders-section">
+          <h4 class="cust-section-title">Your Bake Sale Orders</h4>
+          <div class="customer-orders-list" id="customerOrdersList">
+            <!-- Dynamically populated by script.js -->
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel btn-logout" onclick="handleLogout()">Log Out</button>
+        <button type="button" class="btn-primary-order" onclick="openOrderModalFromCustomer()">Order More Treats &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Feedback Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Image Lightbox Modal for Full-Res Viewing -->
+  <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox()">
+    <button class="lightbox-close" aria-label="Close Lightbox">&times;</button>
+    <img src="" alt="Enlarged View" id="lightboxImage">
+    <p id="lightboxCaption" class="lightbox-caption"></p>
+  </div>
+
+  <!-- Main JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>

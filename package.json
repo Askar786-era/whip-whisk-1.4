@@ -1,0 +1,34 @@
+{
+  "name": "whip-and-whisk",
+  "version": "1.0.0",
+  "description": "Whip & Whisk Bake Sale Web Application with MongoDB Backend, Admin Portal & Capacitor APK support",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "build": "node copy-www.js",
+    "apk:sync": "node copy-www.js && node \"node_modules/@capacitor/cli/bin/capacitor\" sync android",
+    "apk:open": "node \"node_modules/@capacitor/cli/bin/capacitor\" open android"
+  },
+  "keywords": [
+    "bakery",
+    "express",
+    "mongodb",
+    "render",
+    "capacitor",
+    "apk"
+  ],
+  "author": "Whip & Whisk Team",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.4.1"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor/core": "^6.0.0"
+  }
+}
