@@ -9,7 +9,7 @@
  * - CSV Order Export
  */
 
-const ADMIN_PIN_DEFAULT = '2025';
+const ADMIN_PIN_DEFAULT = 'Mega130706';
 
 // State Variables
 let adminOrders = [];

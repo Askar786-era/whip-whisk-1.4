@@ -22,13 +22,13 @@
       <div class="auth-badge">👑 RESTRICTED ACCESS</div>
       <img src="assets/images/logo.jpg" alt="Whip & Whisk Logo" class="auth-logo">
       <h2 class="auth-title">Admin Portal Verification</h2>
-      <p class="auth-subtitle">Enter secret Admin PIN to manage orders, database records, and catalog rates.</p>
+      <p class="auth-subtitle">Enter secret Admin password to manage orders, database records, and catalog rates.</p>
       
       <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
         <div class="form-group">
-          <label for="adminPinInput">Admin PIN Code</label>
-          <input type="password" id="adminPinInput" class="auth-input" placeholder="Default PIN: 2025" required autofocus autocomplete="off">
-          <span class="auth-error-msg" id="authErrorMsg">Incorrect PIN. Please try again.</span>
+          <label for="adminPinInput">Admin Password</label>
+          <input type="password" id="adminPinInput" class="auth-input" placeholder="Enter Admin Password" required autofocus autocomplete="off">
+          <span class="auth-error-msg" id="authErrorMsg">Incorrect password. Please try again.</span>
         </div>
         <button type="submit" class="btn-primary-auth">Unlock Dashboard &rarr;</button>
       </form>

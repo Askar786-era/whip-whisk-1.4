@@ -17,7 +17,7 @@ try {
 const app = express();
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/whip_whisk';
-const ADMIN_PIN = process.env.ADMIN_PIN || '2025';
+const ADMIN_PIN = process.env.ADMIN_PIN || 'Mega130706';
 
 // Express Middleware
 app.use(cors());

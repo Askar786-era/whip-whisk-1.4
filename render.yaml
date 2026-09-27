@@ -10,6 +10,6 @@ services:
       - key: PORT
         value: 3000
       - key: ADMIN_PIN
-        value: 2025
+        value: Mega130706
       - key: MONGODB_URI
         sync: false

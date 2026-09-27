@@ -10,7 +10,7 @@ This guide covers everything you need to **push your project to Render**, genera
    - **Div 1: Existing User (Old Login)** – Email/phone, password, remember me, quick demo login.
    - **Div 2: New User (New Login / Register)** – Full name, email, phone, password with confirmation.
 3. **Uploaded Section Removed**: The extra delights/uploaded gallery was cleanly removed from the storefront.
-4. **Dedicated Admin Page (`admin.html`)**: Complete standalone portal with PIN protection (`2025`), live orders, rate fixing in ₹, and customer contact inquiries.
+4. **Dedicated Admin Page (`admin.html`)**: Complete standalone portal with password protection (`Mega130706`), live orders, rate fixing in ₹, and customer contact inquiries.
 5. **Turnkey APK Generation**: Automated with Capacitor 6 and 1-click batch script `build-apk.bat`.
 
 ---
@@ -45,7 +45,7 @@ git push -u origin main
    - **Plan**: `Free`
 5. *(Optional)* Add your MongoDB Atlas connection string in **Environment Variables**:
    - `MONGODB_URI` = `mongodb+srv://<username>:<password>@cluster0.mongodb.net/whip_whisk?retryWrites=true&w=majority`
-   - `ADMIN_PIN` = `2025`
+   - `ADMIN_PIN` = `Mega130706`
 6. Click **Deploy Web Service**! Render will deploy your live website with free SSL HTTPS.
 
 ---
@@ -86,4 +86,4 @@ This script automatically:
 
 - **Storefront URL**: [index.html](file:///c:/Users/ELCOT/OneDrive/Desktop/whip%20&%20whisk/index.html)
 - **Admin Dashboard URL**: [admin.html](file:///c:/Users/ELCOT/OneDrive/Desktop/whip%20&%20whisk/admin.html)
-- **Default PIN**: `2025`
+- **Default Admin Password**: `Mega130706`
