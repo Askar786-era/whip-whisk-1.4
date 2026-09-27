@@ -1,145 +1,89 @@
-# 📖 Whip & Whisk: MongoDB Compass, Render Deployment & Android APK Guide
+# 🍰 Whip & Whisk: Render Deployment, Android APK & Admin Guide
 
-This complete guide details step-by-step instructions to connect your **MongoDB Database via Compass**, deploy your live website to **Render.com**, and compile the project into a native **Android `.apk` file**.
-
----
-
-## 🍃 Part 1: Setting up MongoDB Database & MongoDB Compass
-
-### 1. Create a Free MongoDB Database (MongoDB Atlas)
-1. Go to [mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas) and sign up for a free account.
-2. Click **Create a Deployment** and select the **M0 Free Tier**.
-3. Under **Database Access**, create a database user (e.g. Username: `whip_admin`, Password: `YourPassword123`).
-4. Under **Network Access**, add IP Address `0.0.0.0/0` (Allows connection from everywhere including Render).
-5. Click **Connect** &rarr; Choose **Compass**.
-6. Copy your MongoDB Connection URI string:
-   ```text
-   mongodb+srv://whip_admin:YourPassword123@cluster0.mongodb.net/whip_whisk?retryWrites=true&w=majority
-   ```
-
-### 2. View Database in MongoDB Compass (Desktop App)
-1. Download & Install [MongoDB Compass GUI](https://www.mongodb.com/try/download/compass).
-2. Open MongoDB Compass.
-3. Paste your connection URI string into the connection box.
-4. Click **Connect**.
-5. You will now see the `whip_whisk` database with collections:
-   - `orders`: All customer bake sale orders placed on the site.
-   - `products`: Catalog treats and live prices.
-   - `inquiries`: Customer contact messages.
+This guide covers everything you need to **push your project to Render**, generate the **Android APK**, and manage the site.
 
 ---
 
-## 🚀 Part 2: Step-by-Step Deployment on Render (render.com)
+## ⚡ What was updated:
+1. **Currency Changed to ₹ (Indian Rupee)** across storefront, treats, fundraiser goal tracker, checkout cart, customer profiles, and the admin dashboard.
+2. **Split Customer Authentication**:
+   - **Div 1: Existing User (Old Login)** – Email/phone, password, remember me, quick demo login.
+   - **Div 2: New User (New Login / Register)** – Full name, email, phone, password with confirmation.
+3. **Uploaded Section Removed**: The extra delights/uploaded gallery was cleanly removed from the storefront.
+4. **Dedicated Admin Page (`admin.html`)**: Complete standalone portal with PIN protection (`2025`), live orders, rate fixing in ₹, and customer contact inquiries.
+5. **Turnkey APK Generation**: Automated with Capacitor 6 and 1-click batch script `build-apk.bat`.
 
-Render allows you to host full-stack Node.js web applications with SSL certificates for free.
+---
 
-### Step 1: Push Code to GitHub
-1. Create a new repository on GitHub named `whip-and-whisk`.
-2. Open your terminal in this project folder and run:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial Whip & Whisk fullstack deployment with Admin portal"
-   git branch -M main
-   git remote add origin https://github.com/YOUR_GITHUB_USERNAME/whip-and-whisk.git
-   git push -u origin main
-   ```
+## 🚀 Part 1: How to Push & Deploy on Render (render.com)
 
-### Step 2: Create Web Service on Render
-1. Log in to [dashboard.render.com](https://dashboard.render.com/).
+The project is already pre-configured with `render.yaml` and a Git repository has been initialized with an initial commit.
+
+### Step 1: Create a GitHub Repository
+1. Go to [github.com/new](https://github.com/new).
+2. Name your repository (e.g. `whip-and-whisk`).
+3. Leave it **Public** or **Private**, do **not** initialize with README (we already have all files).
+4. Click **Create repository**.
+
+### Step 2: Push Your Code from Terminal
+Open your project terminal and run:
+```bash
+git branch -M main
+git remote add origin https://github.com/YOUR_GITHUB_USERNAME/whip-and-whisk.git
+git push -u origin main
+```
+*(Replace `YOUR_GITHUB_USERNAME` with your actual GitHub username).*
+
+### Step 3: Deploy on Render
+1. Go to [dashboard.render.com](https://dashboard.render.com/).
 2. Click **New +** &rarr; Select **Web Service**.
-3. Select your GitHub repository (`whip-and-whisk`).
-4. Fill in the deployment details:
-   - **Name**: `whip-and-whisk`
-   - **Region**: Choose closest to your target audience (e.g. Singapore / Frankfurt / Oregon).
-   - **Branch**: `main`
+3. Connect your GitHub repository (`whip-and-whisk`).
+4. Render automatically reads our `render.yaml` file:
    - **Runtime**: `Node`
    - **Build Command**: `npm install`
    - **Start Command**: `node server.js`
-   - **Instance Type**: `Free`
-
-### Step 3: Configure Environment Variables on Render
-Scroll down to the **Environment Variables** section on Render and add:
-
-| Key | Value |
-| :--- | :--- |
-| `PORT` | `3000` |
-| `MONGODB_URI` | `mongodb+srv://whip_admin:YourPassword123@cluster0.mongodb.net/whip_whisk?retryWrites=true&w=majority` |
-| `ADMIN_PIN` | `2025` *(or your custom secret PIN)* |
-
-### Step 4: Deploy & Access Live Website
-1. Click **Create Web Service**.
-2. Render will build and launch your application.
-3. Once finished, Render provides your live URL (e.g. `https://whip-and-whisk.onrender.com`).
-4. Access your Admin Dashboard at: `https://whip-and-whisk.onrender.com/admin.html` (PIN: `2025`).
+   - **Plan**: `Free`
+5. *(Optional)* Add your MongoDB Atlas connection string in **Environment Variables**:
+   - `MONGODB_URI` = `mongodb+srv://<username>:<password>@cluster0.mongodb.net/whip_whisk?retryWrites=true&w=majority`
+   - `ADMIN_PIN` = `2025`
+6. Click **Deploy Web Service**! Render will deploy your live website with free SSL HTTPS.
 
 ---
 
-## 📱 Part 3: Compiling Website into an Android APK File
+## 📱 Part 2: How to Make the Android APK
 
-You can package the Whip & Whisk web app into a native Android `.apk` file using **Capacitor**.
+The native Android project is already created in the `android/` directory and synced with Capacitor.
 
-### Step 1: Install Dependencies
-Open your project terminal and run:
-```bash
-npm install
-npm install @capacitor/core @capacitor/cli @capacitor/android
+### Option A: 1-Click Batch Script (Easiest)
+Simply double-click or run:
+```cmd
+build-apk.bat
 ```
+This script automatically:
+- Copies web assets to `www/`
+- Runs `capacitor sync android`
+- Checks for Java / Android Studio JDK
+- Compiles the debug APK or launches Android Studio with 1 click.
 
-### Step 2: Initialize & Add Android Platform
-Run the following commands:
-```bash
-# Initialize Capacitor (configured via capacitor.config.json)
-npx cap init "Whip & Whisk" "com.whipandwhisk.bakesale" --web-dir "."
-
-# Add the Android native folder
-npx cap add android
-
-# Sync web code into the native Android folder
-npx cap sync
-```
-
-### Step 3: Build APK File
-You have **2 methods** to generate the APK:
-
-#### Method A: Using Command Line Gradle (Fastest)
-1. Navigate into the generated `android` folder:
-   ```bash
-   cd android
+### Option B: Build via Android Studio
+1. In your project terminal, run:
+   ```cmd
+   npm run apk:open
    ```
-2. Build the debug APK:
-   - **Windows PowerShell**:
-     ```powershell
-     .\gradlew assembleDebug
-     ```
-   - **Linux/Mac**:
-     ```bash
-     ./gradlew assembleDebug
-     ```
-3. Your generated `.apk` file will be located at:
+2. Android Studio will open the native project.
+3. Wait for Gradle sync to finish.
+4. Go to top menu: **Build** &rarr; **Build Bundle(s) / APK(s)** &rarr; **Build APK(s)**.
+5. In the bottom-right notification popup, click **locate**.
+6. Your `.apk` file is located at:
    ```text
-   android/app/build/outputs/apk/debug/app-debug.apk
+   android\app\build\outputs\apk\debug\app-debug.apk
    ```
-
-#### Method B: Using Android Studio
-1. Run:
-   ```bash
-   npx cap open android
-   ```
-2. Android Studio will open your project automatically.
-3. In Android Studio top menu, click **Build** &rarr; **Build Bundle(s) / APK(s)** &rarr; **Build APK(s)**.
-4. Once completed, click **locate** in the popup to view your `app-debug.apk` file.
-
-### Step 4: Install APK on Android Phone
-1. Transfer `app-debug.apk` to your Android phone via USB, email, or WhatsApp.
-2. Tap the APK file on your phone.
-3. Allow **"Install from unknown sources"** when prompted.
-4. Open the **Whip & Whisk** native app on your phone! 🍰
+7. Send this file to your Android phone via WhatsApp, Drive, or USB and tap to install!
 
 ---
 
-## 👑 Quick Admin Access Reference
+## 👑 Part 3: Accessing the Dedicated Admin Page
 
 - **Storefront URL**: [index.html](file:///c:/Users/ELCOT/OneDrive/Desktop/whip%20&%20whisk/index.html)
 - **Admin Dashboard URL**: [admin.html](file:///c:/Users/ELCOT/OneDrive/Desktop/whip%20&%20whisk/admin.html)
-- **Default Admin PIN**: `2025`
+- **Default PIN**: `2025`
