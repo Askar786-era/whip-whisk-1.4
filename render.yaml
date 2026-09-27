@@ -6,9 +6,12 @@ services:
     region: oregon
     buildCommand: npm install
     startCommand: node server.js
+    healthCheckPath: /api/health
     envVars:
       - key: PORT
         value: 3000
+      - key: NODE_ENV
+        value: production
       - key: ADMIN_PIN
         value: Mega130706
       - key: MONGODB_URI

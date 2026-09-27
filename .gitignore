@@ -1,14 +1,19 @@
 node_modules/
 .env
-.DS_Store
-Thumbs.db
+
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Android build outputs
+# OS files
+.DS_Store
+Thumbs.db
+
+# Android build outputs (keep source, ignore compiled artefacts)
 android/app/build/
 android/.gradle/
 android/local.properties
 android/captures/
 android/.externalNativeBuild/
+android/.cxx/

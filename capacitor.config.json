@@ -2,13 +2,24 @@
   "appId": "com.whipandwhisk.bakesale",
   "appName": "Whip & Whisk",
   "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#f5ece4",
+      "showSpinner": false
+    }
+  },
   "server": {
     "androidScheme": "https",
-    "cleartext": true
+    "cleartext": true,
+    "allowNavigation": [
+      "*.onrender.com",
+      "*.mongodb.net"
+    ]
   },
   "android": {
     "allowMixedContent": true,
     "captureInput": true,
-    "webContentsDebuggingEnabled": true
+    "webContentsDebuggingEnabled": false
   }
 }

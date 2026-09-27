@@ -1,16 +1,22 @@
-const fs = require('fs');
+/**
+ * copy-www.js
+ * Copies all static web assets into the www/ folder
+ * so Capacitor can bundle them into the Android APK.
+ *
+ * Run:  node copy-www.js
+ */
+
+const fs   = require('fs');
 const path = require('path');
 
-const rootDir = __dirname;
-const wwwDir = path.join(rootDir, 'www');
+const ROOT   = __dirname;
+const WWW    = path.join(ROOT, 'www');
 
-// Ensure www exists
-if (!fs.existsSync(wwwDir)) {
-  fs.mkdirSync(wwwDir, { recursive: true });
-}
+// Ensure www/ exists
+if (!fs.existsSync(WWW)) fs.mkdirSync(WWW, { recursive: true });
 
-// Files to copy
-const filesToCopy = [
+// ── Files to copy flat into www/ ─────────────────────────────────────────────
+const FILES = [
   'index.html',
   'admin.html',
   'style.css',
@@ -19,35 +25,35 @@ const filesToCopy = [
   'admin.js'
 ];
 
-filesToCopy.forEach(file => {
-  const src = path.join(rootDir, file);
-  const dest = path.join(wwwDir, file);
+FILES.forEach(file => {
+  const src  = path.join(ROOT, file);
+  const dest = path.join(WWW, file);
   if (fs.existsSync(src)) {
     fs.copyFileSync(src, dest);
+    console.log(`  ✔ ${file}`);
+  } else {
+    console.warn(`  ⚠  ${file} not found — skipped`);
   }
 });
 
-// Copy assets folder recursively
-function copyDirRecursive(srcDir, destDir) {
-  if (!fs.existsSync(destDir)) {
-    fs.mkdirSync(destDir, { recursive: true });
-  }
-  const entries = fs.readdirSync(srcDir, { withFileTypes: true });
-  for (const entry of entries) {
-    const srcPath = path.join(srcDir, entry.name);
-    const destPath = path.join(destDir, entry.name);
-    if (entry.isDirectory()) {
-      copyDirRecursive(srcPath, destPath);
-    } else {
-      fs.copyFileSync(srcPath, destPath);
-    }
-  }
+// ── Recursively copy a directory ─────────────────────────────────────────────
+function copyDir (src, dest) {
+  if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
+  fs.readdirSync(src, { withFileTypes: true }).forEach(entry => {
+    const s = path.join(src, entry.name);
+    const d = path.join(dest, entry.name);
+    entry.isDirectory() ? copyDir(s, d) : fs.copyFileSync(s, d);
+  });
 }
 
-const assetsSrc = path.join(rootDir, 'assets');
-const assetsDest = path.join(wwwDir, 'assets');
+// ── Copy assets/ folder ───────────────────────────────────────────────────────
+const assetsSrc  = path.join(ROOT, 'assets');
+const assetsDest = path.join(WWW,  'assets');
 if (fs.existsSync(assetsSrc)) {
-  copyDirRecursive(assetsSrc, assetsDest);
+  copyDir(assetsSrc, assetsDest);
+  console.log('  ✔ assets/');
+} else {
+  console.warn('  ⚠  assets/ folder not found — skipped');
 }
 
-console.log('✅ Web assets synchronized to www directory.');
+console.log('\n✅  Web assets ready in www/\n');
