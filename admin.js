@@ -422,13 +422,13 @@ function openOrderDetailModal(orderId) {
       <span class="detail-label">Requested Delivery Date</span>
       <span class="detail-val">${order.deliveryDate || 'N/A'}</span>
     </div>
-    <hr style="border-color: rgba(255,255,255,0.1); margin: 16px 0;">
-    <h4 style="margin-bottom: 12px; font-family: var(--font-serif); font-size: 1.2rem;">Items List</h4>
+    <hr style="border: 0; border-top: 1px solid rgba(52, 34, 41, 0.1); margin: 16px 0;">
+    <h4 style="margin-bottom: 12px; font-family: var(--font-serif); font-size: 1.2rem; color: var(--color-text-main);">Items List</h4>
     ${itemsHtml}
-    <hr style="border-color: rgba(255,255,255,0.1); margin: 16px 0;">
-    <div style="display:flex; justify-content:space-between; font-size: 1.1rem; color: var(--color-gold);">
-      <strong>Grand Total</strong>
-      <strong>₹${(Number(order.total) || 0).toFixed(2)}</strong>
+    <hr style="border: 0; border-top: 1px solid rgba(52, 34, 41, 0.1); margin: 16px 0;">
+    <div style="display:flex; justify-content:space-between; font-size: 1.15rem; color: var(--color-gold); font-weight: 700;">
+      <span>Grand Total</span>
+      <span>₹${(Number(order.total) || 0).toFixed(2)}</span>
     </div>
   `;
 
