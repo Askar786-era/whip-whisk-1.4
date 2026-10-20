@@ -1,0 +1,25 @@
+{
+  "name": "Whip & Whisk Bake Sale",
+  "short_name": "Whip & Whisk",
+  "description": "Artisan handcrafted cakes, cookies, and treats for charity. Order online for doorstep delivery.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FAF7F2",
+  "theme_color": "#B87320",
+  "categories": ["food", "shopping"],
+  "icons": [
+    {
+      "src": "assets/images/logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/images/logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}

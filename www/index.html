@@ -14,6 +14,14 @@
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/jpeg" href="assets/images/logo.jpg">
+
+  <!-- Progressive Web App (PWA) Manifest & Mobile Meta -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#B87320">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Whip & Whisk">
+  <link rel="apple-touch-icon" href="assets/images/logo.jpg">
 </head>
 <body>
 
@@ -30,9 +38,17 @@
         <a href="#take-a-bite" class="nav-link">Menu &amp; Treats</a>
         <a href="#delivery" class="nav-link">Delivery</a>
         <a href="#contact" class="nav-link">Contact</a>
+        <a href="admin.html" class="nav-link admin-nav-link" id="navAdminLink">👑 Admin Portal</a>
+        <a href="javascript:void(0)" class="nav-link nav-install-link" id="navInstallLink" onclick="triggerPwaInstall()" style="display: none;">📲 Install App</a>
       </nav>
 
       <div class="header-actions">
+        <!-- PWA Install Button -->
+        <button class="install-pwa-btn" id="installPwaBtn" aria-label="Install App" onclick="triggerPwaInstall()" style="display: none;">
+          <span class="install-icon">📲</span>
+          <span class="install-label">Install App</span>
+        </button>
+
         <!-- Account / Sign In Trigger Button -->
         <button class="account-trigger-btn" id="accountTriggerBtn" aria-label="Account Login & Portal" onclick="handleAccountBtnClick()">
           <span class="account-icon" id="accountIcon">👤</span>
@@ -461,11 +477,35 @@
   <!-- Toast Notification Feedback Container -->
   <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
-  <!-- Image Lightbox Modal for Full-Res Viewing -->
-  <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox()">
-    <button class="lightbox-close" aria-label="Close Lightbox">&times;</button>
-    <img src="" alt="Enlarged View" id="lightboxImage">
-    <p id="lightboxCaption" class="lightbox-caption"></p>
+  <!-- PWA Mobile Install Floating Banner -->
+  <aside class="pwa-install-banner" id="pwaInstallBanner" style="display: none;" aria-label="Install Whip & Whisk App">
+    <div class="pwa-banner-content">
+      <img src="assets/images/logo.jpg" alt="App Icon" class="pwa-banner-icon">
+      <div class="pwa-banner-text">
+        <strong>Install Whip &amp; Whisk</strong>
+        <span>1-tap ordering directly from your phone!</span>
+      </div>
+    </div>
+    <div class="pwa-banner-actions">
+      <button type="button" class="pwa-btn-dismiss" onclick="dismissPwaBanner()" aria-label="Dismiss">&times;</button>
+      <button type="button" class="pwa-btn-install" onclick="triggerPwaInstall()">Install</button>
+    </div>
+  </aside>
+
+  <!-- iOS Safari Install Instructions Modal -->
+  <div class="ios-install-modal" id="iosInstallModal" style="display: none;">
+    <div class="ios-modal-card">
+      <button type="button" class="ios-modal-close" onclick="closeIosInstallModal()">&times;</button>
+      <img src="assets/images/logo.jpg" alt="Whip & Whisk Logo" class="ios-modal-logo">
+      <h3>Install on iPhone / iPad</h3>
+      <p>Add Whip &amp; Whisk directly to your home screen:</p>
+      <ol class="ios-steps-list">
+        <li>Tap the <strong>Share</strong> button <span style="font-size: 1.2rem;">⎋</span> at the bottom of Safari.</li>
+        <li>Scroll down and tap <strong>"Add to Home Screen"</strong> <span style="font-size: 1.2rem;">⊞</span>.</li>
+        <li>Tap <strong>Add</strong> in the top right corner!</li>
+      </ol>
+      <button type="button" class="btn-primary-order" onclick="closeIosInstallModal()" style="width: 100%; margin-top: 12px; padding: 12px;">Got It!</button>
+    </div>
   </div>
 
   <!-- Main JavaScript -->

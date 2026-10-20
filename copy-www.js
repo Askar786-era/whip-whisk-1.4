@@ -22,7 +22,9 @@ const FILES = [
   'style.css',
   'admin.css',
   'script.js',
-  'admin.js'
+  'admin.js',
+  'manifest.json',
+  'sw.js'
 ];
 
 FILES.forEach(file => {

@@ -988,3 +988,105 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
+
+// ==========================================================================
+// PWA INSTALLATION SYSTEM (MOBILE & DESKTOP 1-TAP INSTALL)
+// ==========================================================================
+
+let deferredPwaPrompt = null;
+const isIos = () => /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+const isInStandaloneMode = () => ('standalone' in window.navigator) && window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+
+// Register Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg => console.log('✅ PWA Service Worker registered:', reg.scope))
+      .catch(err => console.warn('PWA Service Worker note:', err));
+  });
+}
+
+// Capture BeforeInstallPrompt (Chrome, Android, Edge, Samsung Internet)
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPwaPrompt = e;
+
+  // Show Header & Nav install buttons
+  const installBtn = document.getElementById('installPwaBtn');
+  const navInstall = document.getElementById('navInstallLink');
+  const banner = document.getElementById('pwaInstallBanner');
+
+  if (installBtn) installBtn.style.display = 'inline-flex';
+  if (navInstall) navInstall.style.display = 'block';
+
+  // Check if user dismissed banner previously in this session
+  const dismissed = sessionStorage.getItem('whip_whisk_pwa_dismissed');
+  if (!dismissed && banner && !isInStandaloneMode()) {
+    setTimeout(() => {
+      banner.style.display = 'flex';
+    }, 2500);
+  }
+});
+
+// Detect when successfully installed
+window.addEventListener('appinstalled', () => {
+  deferredPwaPrompt = null;
+  const banner = document.getElementById('pwaInstallBanner');
+  const installBtn = document.getElementById('installPwaBtn');
+  const navInstall = document.getElementById('navInstallLink');
+
+  if (banner) banner.style.display = 'none';
+  if (installBtn) installBtn.style.display = 'none';
+  if (navInstall) navInstall.style.display = 'none';
+
+  showToast('🎉 Whip & Whisk App installed successfully! Enjoy 1-tap orders!');
+});
+
+// Trigger PWA Install
+function triggerPwaInstall() {
+  if (deferredPwaPrompt) {
+    deferredPwaPrompt.prompt();
+    deferredPwaPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('User accepted PWA install');
+      }
+      deferredPwaPrompt = null;
+      const banner = document.getElementById('pwaInstallBanner');
+      if (banner) banner.style.display = 'none';
+    });
+  } else if (isIos() && !isInStandaloneMode()) {
+    // Show iOS Safari Instructions
+    const iosModal = document.getElementById('iosInstallModal');
+    if (iosModal) iosModal.style.display = 'flex';
+  } else {
+    // If browser doesn't support prompt or already installed
+    showToast('📲 To install: tap your browser menu (⋮ or Share ⎋) and select "Install app" or "Add to Home screen"!');
+  }
+}
+
+function dismissPwaBanner() {
+  const banner = document.getElementById('pwaInstallBanner');
+  if (banner) banner.style.display = 'none';
+  sessionStorage.setItem('whip_whisk_pwa_dismissed', 'true');
+}
+
+function closeIosInstallModal() {
+  const iosModal = document.getElementById('iosInstallModal');
+  if (iosModal) iosModal.style.display = 'none';
+}
+
+// Show install button for iOS if not installed
+document.addEventListener('DOMContentLoaded', () => {
+  if (isIos() && !isInStandaloneMode()) {
+    const installBtn = document.getElementById('installPwaBtn');
+    const navInstall = document.getElementById('navInstallLink');
+    if (installBtn) installBtn.style.display = 'inline-flex';
+    if (navInstall) navInstall.style.display = 'block';
+
+    const dismissed = sessionStorage.getItem('whip_whisk_pwa_dismissed');
+    const banner = document.getElementById('pwaInstallBanner');
+    if (!dismissed && banner) {
+      setTimeout(() => { banner.style.display = 'flex'; }, 3000);
+    }
+  }
+});
