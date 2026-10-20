@@ -2,7 +2,7 @@
 echo ===================================================
 echo   Whip ^& Whisk - Push to GitHub Repository
 echo ===================================================
-echo Repository: https://github.com/Askar786-era/whip-whisk_1.3.git
+echo Repository: https://github.com/Askar786-era/whip-whisk-1.4.git
 echo Branch:     main
 echo.
 git push -u origin main
