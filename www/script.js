@@ -812,7 +812,7 @@ function handlePlaceOrder(event) {
   const address = document.getElementById('orderCustomerAddress').value.trim();
   const date = document.getElementById('orderDeliveryDate').value;
   const causeSelect = document.getElementById('orderCauseChoice');
-  const causeName = causeSelect.options[causeSelect.selectedIndex].text;
+  const causeName = causeSelect && causeSelect.options[causeSelect.selectedIndex] ? causeSelect.options[causeSelect.selectedIndex].text : 'Fresh Bake Sale';
   const notes = document.getElementById('orderNotes')?.value.trim() || '';
 
   const deliveryFee = subtotal >= 35 ? 0.00 : 4.50;
@@ -865,7 +865,7 @@ function handlePlaceOrder(event) {
 
   // 4. Feedback to Customer
   closeOrderModal();
-  showToast(`🎉 Thank you, ${name}! Order #${newOrder.id} for ₹${grandTotal.toFixed(2)} confirmed! 100% donated to: ${causeName}. ❤️`);
+  showToast(`🎉 Thank you, ${name}! Order #${newOrder.id} for ₹${grandTotal.toFixed(2)} confirmed! ❤️`);
 
   // Reset form & cart
   for (const id of Object.keys(cartState)) {

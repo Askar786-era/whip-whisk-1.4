@@ -18,5 +18,4 @@ services:
         value: https://utzrqcpunpizzujkflct.supabase.co
       - key: SUPABASE_KEY
         value: sb_publishable_DI86fR0rt_FEmsIMPeeXOw_06CeWjCp
-      - key: MONGODB_URI
-        sync: false
+

@@ -28,7 +28,6 @@
       <nav class="nav-menu" id="navMenu">
         <a href="#hero" class="nav-link">Home</a>
         <a href="#take-a-bite" class="nav-link">Menu &amp; Treats</a>
-        <a href="#charity" class="nav-link">Our Cause</a>
         <a href="#delivery" class="nav-link">Delivery</a>
         <a href="#contact" class="nav-link">Contact</a>
         <a href="admin.html" class="nav-link admin-nav-link" id="navAdminLink">👑 Admin Portal</a>
@@ -150,58 +149,6 @@
       </div>
     </section>
 
-    <!-- SECTION 3: "All proceeds of this bake sale go to" (Cream Background) -->
-    <section class="charity-cause-section" id="charity">
-      <div class="container charity-container">
-        <div class="charity-left-column">
-          <h2 class="charity-headline">All proceeds<br>of this bake<br>sale go to</h2>
-          <div class="cause-ribbon">
-            <span class="ribbon-heart">💖</span>
-            <span class="ribbon-text">Every rupee makes a meaningful difference</span>
-          </div>
-        </div>
-
-        <div class="charity-right-column">
-          <ul class="beneficiaries-list">
-            <li class="beneficiary-item">
-              <div class="beneficiary-bullet"></div>
-              <div class="beneficiary-text">
-                <h3 class="beneficiary-name">Lily River Children's Foundation</h3>
-                <p class="beneficiary-desc">Providing pediatric medical care, smiles, and warm educational support for children in need.</p>
-              </div>
-            </li>
-            <li class="beneficiary-item">
-              <div class="beneficiary-bullet"></div>
-              <div class="beneficiary-text">
-                <h3 class="beneficiary-name">Marine Conservational Society</h3>
-                <p class="beneficiary-desc">Protecting coastal ecosystems, coral reefs, and marine wildlife habitats through volunteer beach cleanups.</p>
-              </div>
-            </li>
-            <li class="beneficiary-item">
-              <div class="beneficiary-bullet"></div>
-              <div class="beneficiary-text">
-                <h3 class="beneficiary-name">The Newark Family</h3>
-                <p class="beneficiary-desc">Direct community recovery fund providing heartfelt relief, groceries, and warmth during hard times.</p>
-              </div>
-            </li>
-          </ul>
-
-          <!-- Live Impact Progress Tracker -->
-          <div class="fundraiser-progress-card">
-            <div class="progress-top-stats">
-              <span class="stat-label">Bake Sale Goal Progress</span>
-              <span class="stat-figures"><strong>₹3,850</strong> raised of ₹5,000 goal</span>
-            </div>
-            <div class="progress-bar-track">
-              <div class="progress-bar-fill" style="width: 77%;"></div>
-            </div>
-            <div class="progress-footer-note">
-              <span>77% Reached &bull; 142 Generous Sweet Lovers</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- SECTION 4: "We deliver anywhere!" (Split Photo + Lavender Block) -->
     <section class="delivery-section" id="delivery">
@@ -324,20 +271,9 @@
               <input type="text" id="orderCustomerAddress" placeholder="Street Address, Apt, Suite, City, Zip" required>
             </div>
 
-            <div class="form-grid-2">
-              <div class="form-group">
-                <label for="orderDeliveryDate">Preferred Delivery Date *</label>
-                <input type="date" id="orderDeliveryDate" required>
-              </div>
-              <div class="form-group">
-                <label for="orderCauseChoice">Designate Your Cause *</label>
-                <select id="orderCauseChoice" required>
-                  <option value="all">Split equally to all 3 causes</option>
-                  <option value="children">Lily River Children's Foundation</option>
-                  <option value="marine">Marine Conservational Society</option>
-                  <option value="family">The Newark Family Support</option>
-                </select>
-              </div>
+            <div class="form-group">
+              <label for="orderDeliveryDate">Preferred Delivery Date *</label>
+              <input type="date" id="orderDeliveryDate" required>
             </div>
 
             <div class="form-group">
