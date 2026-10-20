@@ -30,7 +30,6 @@
         <a href="#take-a-bite" class="nav-link">Menu &amp; Treats</a>
         <a href="#delivery" class="nav-link">Delivery</a>
         <a href="#contact" class="nav-link">Contact</a>
-        <a href="admin.html" class="nav-link admin-nav-link" id="navAdminLink">👑 Admin Portal</a>
       </nav>
 
       <div class="header-actions">
@@ -146,6 +145,16 @@
           </div>
         </div>
 
+        <!-- Dynamic Extra Treats Grid (Shows additional cakes & items added via admin) -->
+        <div id="extraTreatsContainer" style="display: none; margin-top: 48px;">
+          <div class="section-title-wrap" style="margin-bottom: 24px;">
+            <h3 style="font-family: var(--font-serif); font-size: 2.2rem; color: var(--text-primary); text-align: center;">More Artisan Cakes &amp; Delights</h3>
+          </div>
+          <div class="treats-showcase-grid" id="extraTreatsGrid">
+            <!-- Dynamically populated by script.js -->
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -184,23 +193,16 @@
 
         <div class="contact-right-col">
           <div class="contact-block">
-            <h4 class="contact-label">MAIN SHOP</h4>
-            <p class="contact-value">123 Anywhere St., Any City, Any State</p>
-          </div>
-
-          <div class="contact-block">
-            <h4 class="contact-label">INSTAGRAM / FACEBOOK / TWITTER</h4>
+            <h4 class="contact-label">INSTAGRAM</h4>
             <p class="contact-value">
-              <a href="https://instagram.com" target="_blank" rel="noopener" class="social-link">@whipandwhisk</a>
-              <span class="divider">&bull;</span>
-              <a href="https://facebook.com" target="_blank" rel="noopener" class="social-link">fb/whipandwhisk</a>
+              <a href="https://instagram.com" target="_blank" rel="noopener" class="social-link">@Whip_and_whisk_shop</a>
             </p>
           </div>
 
           <div class="contact-block">
             <h4 class="contact-label">PHONE NUMBER</h4>
             <p class="contact-value">
-              <a href="tel:1234567890" class="tel-link">(123) 456 7890</a>
+              <a href="tel:9384084042" class="tel-link">9384084042</a>
             </p>
           </div>
 
@@ -221,8 +223,6 @@
 
       <!-- Footer Bar with Dedicated Admin Link -->
       <div class="site-bottom-bar">
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-          <span>&copy; 2025 Whip &amp; Whisk Bake Sale. Satisfy cravings for a cause.</span>
           <a href="admin.html" style="color: #6A525C; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
             👑 Bakery Administration Portal &rarr;
           </a>

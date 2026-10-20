@@ -238,14 +238,46 @@ function renderStorefrontProducts() {
     browniePopsEl.textContent = `₹${Number(PRODUCTS['brownie-pops'].price).toFixed(2)} / set`;
   }
 
-  // 2. Render Order Modal Item Rows
+  // 2. Render Additional Treats & Cakes if available
+  const extraContainer = document.getElementById('extraTreatsContainer');
+  const extraGrid = document.getElementById('extraTreatsGrid');
+  const heroKeys = ['cookie-tin', 'bento-cake', 'brownie-pops'];
+  const extraItems = Object.entries(PRODUCTS).filter(([id]) => !heroKeys.includes(id));
+
+  if (extraContainer && extraGrid) {
+    if (extraItems.length > 0) {
+      extraGrid.innerHTML = extraItems.map(([id, p]) => `
+        <div class="treat-card card-style-arch" data-item="${id}">
+          <div class="card-frame frame-arch" tabindex="0" role="button" aria-label="View ${escapeHtml(p.name)}" onclick="openOrderModalWithItem('${id}')">
+            <img src="${escapeHtml(p.img || 'assets/images/bento_cake.jpg')}" alt="${escapeHtml(p.name)}" class="treat-img">
+            <div class="card-hover-overlay">
+              <span class="quick-view-text">Quick Order +</span>
+            </div>
+          </div>
+          <div class="card-info">
+            <h3 class="treat-name">${escapeHtml(p.name.toUpperCase())}</h3>
+            <p class="treat-desc">${escapeHtml(p.desc || 'Freshly handcrafted artisan cake.')}</p>
+            <div class="treat-action-row">
+              <span class="treat-price">₹${Number(p.price).toFixed(2)}</span>
+              <button class="mini-order-btn" onclick="openOrderModalWithItem('${id}')">Order Now</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+      extraContainer.style.display = 'block';
+    } else {
+      extraContainer.style.display = 'none';
+    }
+  }
+
+  // 3. Render Order Modal Item Rows
   if (orderItemsList) {
     let itemsHtml = '';
     for (const [id, prod] of Object.entries(PRODUCTS)) {
       const qty = cartState[id] || 0;
       itemsHtml += `
         <div class="order-item-row" data-id="${id}">
-          <img src="${escapeHtml(prod.img)}" alt="${escapeHtml(prod.name)}" class="order-item-thumb">
+          <img src="${escapeHtml(prod.img || 'assets/images/bento_cake.jpg')}" alt="${escapeHtml(prod.name)}" class="order-item-thumb">
           <div class="order-item-details">
             <strong>${escapeHtml(prod.name)}</strong>
             <span class="item-price-tag">₹${Number(prod.price).toFixed(2)}</span>

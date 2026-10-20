@@ -183,7 +183,7 @@ app.get('/api/products', async (_req, res) => {
 // PUT /api/products/:id
 app.put('/api/products/:id', async (req, res) => {
   const { id } = req.params;
-  const { price, name, desc, category } = req.body;
+  const { price, name, desc, category, img } = req.body;
 
   try {
     // Update memory
@@ -192,8 +192,16 @@ app.put('/api/products/:id', async (req, res) => {
       if (name) memoryProducts[id].name = name;
       if (desc) memoryProducts[id].desc = desc;
       if (category) memoryProducts[id].category = category;
+      if (img) memoryProducts[id].img = img;
     } else {
-      memoryProducts[id] = { id, name: name || id, price: Number(price) || 10, desc: desc || '', category: category || 'delight' };
+      memoryProducts[id] = {
+        id,
+        name: name || id,
+        price: Number(price) || 10,
+        desc: desc || '',
+        category: category || 'delight',
+        img: img || 'assets/images/bento_cake.jpg'
+      };
     }
 
     // Persist to Supabase
@@ -201,9 +209,10 @@ app.put('/api/products/:id', async (req, res) => {
       await supabase.from('products').upsert({
         id,
         name: memoryProducts[id].name,
-        price: Number(price),
+        price: Number(memoryProducts[id].price),
         desc: memoryProducts[id].desc,
-        category: memoryProducts[id].category
+        category: memoryProducts[id].category,
+        img: memoryProducts[id].img
       });
     }
 
@@ -211,12 +220,39 @@ app.put('/api/products/:id', async (req, res) => {
     if (isMongoConnected && ProductModel) {
       await ProductModel.findOneAndUpdate(
         { id },
-        { id, price: Number(price), name: memoryProducts[id].name, desc: memoryProducts[id].desc },
+        {
+          id,
+          price: Number(memoryProducts[id].price),
+          name: memoryProducts[id].name,
+          desc: memoryProducts[id].desc,
+          category: memoryProducts[id].category,
+          img: memoryProducts[id].img
+        },
         { upsert: true, new: true }
       );
     }
 
     return res.json({ success: true, product: memoryProducts[id] });
+  } catch (e) {
+    return res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+// DELETE /api/products/:id
+app.delete('/api/products/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    delete memoryProducts[id];
+
+    if (supabase) {
+      await supabase.from('products').delete().eq('id', id);
+    }
+
+    if (isMongoConnected && ProductModel) {
+      await ProductModel.deleteOne({ id });
+    }
+
+    return res.json({ success: true, id });
   } catch (e) {
     return res.status(500).json({ success: false, error: e.message });
   }

@@ -34,9 +34,17 @@ if defined JAVA_HOME (
 )
 
 :: Check common Android Studio JBR locations
+set "AS_JBR0=C:\Program Files\Android\Android Studio1\jbr"
 set "AS_JBR1=C:\Program Files\Android\Android Studio\jbr"
 set "AS_JBR2=C:\Program Files\Android\Android Studio\jre"
 set "LOCAL_JBR=%LOCALAPPDATA%\Programs\Android Studio\jbr"
+
+if exist "%AS_JBR0%\bin\java.exe" (
+    set "JAVA_HOME=%AS_JBR0%"
+    set "PATH=%AS_JBR0%\bin;%PATH%"
+    echo [*] Detected Android Studio Java: %AS_JBR0%
+    goto BUILD_GRADLE
+)
 
 if exist "%AS_JBR1%\bin\java.exe" (
     set "JAVA_HOME=%AS_JBR1%"

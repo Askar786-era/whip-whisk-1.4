@@ -14,7 +14,9 @@
     "cleartext": true,
     "allowNavigation": [
       "*.onrender.com",
-      "*.mongodb.net"
+      "*.mongodb.net",
+      "*.supabase.co",
+      "*.vercel.app"
     ]
   },
   "android": {

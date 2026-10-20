@@ -167,11 +167,14 @@
 
       <!-- TAB 2: CATALOG & RATE FIXING -->
       <section class="tab-content" id="tabRates" style="display: none;">
-        <div class="tab-header">
+        <div class="tab-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
           <div>
             <h2>Storefront Price &amp; Catalog Controller</h2>
-            <p>Update item rates, descriptions, or add new artisan treats dynamically to your live storefront.</p>
+            <p>Update item rates, descriptions, or add new artisan cakes &amp; delights dynamically to your live storefront.</p>
           </div>
+          <button class="btn-add-product" onclick="openAddProductModal()" type="button">
+            ➕ Add New Cake / Item
+          </button>
         </div>
 
         <div class="products-rate-grid" id="adminProductsGrid">
@@ -204,6 +207,57 @@
       <div class="modal-body" id="modalOrderBody">
         <!-- Rendered dynamically -->
       </div>
+    </div>
+  </div>
+
+  <!-- ADD PRODUCT / CAKE MODAL -->
+  <div class="modal-overlay" id="addProductModal" style="display: none;">
+    <div class="modal-content" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3>Add New Cake or Artisan Item</h3>
+        <button class="modal-close" onclick="closeAddProductModal()">&times;</button>
+      </div>
+      <form id="addProductForm" onsubmit="handleCreateProduct(event)">
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label for="newProdName">Cake / Item Name *</label>
+          <input type="text" id="newProdName" class="auth-input" style="text-align: left; letter-spacing: normal; font-size: 0.95rem; padding: 10px 14px;" placeholder="e.g. Red Velvet Celebration Cake" required>
+        </div>
+        <div style="display: flex; gap: 12px; margin-bottom: 14px;">
+          <div class="form-group" style="flex: 1; margin-bottom: 0;">
+            <label for="newProdPrice">Price in INR (₹) *</label>
+            <input type="number" step="0.50" min="1" id="newProdPrice" class="auth-input" style="text-align: left; letter-spacing: normal; font-size: 0.95rem; padding: 10px 14px;" placeholder="e.g. 25" required>
+          </div>
+          <div class="form-group" style="flex: 1; margin-bottom: 0;">
+            <label for="newProdCategory">Category</label>
+            <select id="newProdCategory" class="auth-input" style="text-align: left; letter-spacing: normal; font-size: 0.88rem; padding: 10px 12px; cursor: pointer;">
+              <option value="arch">Celebration Cake</option>
+              <option value="delight">Artisan Delight</option>
+              <option value="box">Cookie Box</option>
+              <option value="circle">Dessert Pops</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label for="newProdImgPreset">Item Image</label>
+          <select id="newProdImgPreset" class="auth-input" style="text-align: left; letter-spacing: normal; font-size: 0.88rem; padding: 10px 12px; margin-bottom: 8px; cursor: pointer;" onchange="handleImagePresetChange(this.value)">
+            <option value="assets/images/bento_cake.jpg">Celebration Bento Cake</option>
+            <option value="assets/images/heart_brownie_pops.jpg">Heart Brownie Pops</option>
+            <option value="assets/images/fudge_brownies_box.jpg">Box of Glazed Fudge Brownies</option>
+            <option value="assets/images/cookie_tin.jpg">Fresh Cookie Tin</option>
+            <option value="assets/images/brownie_skewers.jpg">Dipped Brownie Bites Skewers</option>
+            <option value="custom">Custom Image URL...</option>
+          </select>
+          <input type="text" id="newProdImgCustom" class="auth-input" style="display: none; text-align: left; letter-spacing: normal; font-size: 0.88rem; padding: 10px 14px;" placeholder="https://... image URL">
+        </div>
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label for="newProdDesc">Description</label>
+          <textarea id="newProdDesc" class="auth-input" rows="2" style="text-align: left; letter-spacing: normal; font-size: 0.9rem; padding: 10px 14px; resize: vertical;" placeholder="Rich chocolate sponge layers, velvety frosting, handcrafted with love..."></textarea>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="btn-refresh" onclick="closeAddProductModal()">Cancel</button>
+          <button type="submit" class="btn-primary-auth" style="width: auto; padding: 10px 22px; font-size: 0.92rem;">Save &amp; Publish Cake &rarr;</button>
+        </div>
+      </form>
     </div>
   </div>
 

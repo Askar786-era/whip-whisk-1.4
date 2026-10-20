@@ -324,6 +324,15 @@ async function updateOrderStatus(orderId, newStatus) {
 function renderProductsRateGrid() {
   const keys = Object.keys(adminProducts);
 
+  if (keys.length === 0) {
+    adminProductsGrid.innerHTML = `
+      <div class="empty-state" style="grid-column: 1 / -1; padding: 40px; text-align: center;">
+        No products in catalog. Click <strong>➕ Add New Cake / Item</strong> above to add treats!
+      </div>
+    `;
+    return;
+  }
+
   adminProductsGrid.innerHTML = keys.map(key => {
     const p = adminProducts[key];
     const itemPrice = Number(p.price) || 0;
@@ -337,6 +346,7 @@ function renderProductsRateGrid() {
           <span style="font-weight: 700; color: var(--color-gold);">₹</span>
           <input type="number" step="0.50" min="0" value="${itemPrice.toFixed(2)}" id="priceInput_${key}" class="rate-input">
           <button class="btn-save-rate" onclick="saveProductRate('${key}')">Save Rate</button>
+          <button class="btn-delete-rate" onclick="deleteProductRate('${key}')" title="Delete Treat">🗑️</button>
         </div>
       </div>
     `;
@@ -358,7 +368,13 @@ async function saveProductRate(itemId) {
     await fetch(`/api/products/${itemId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ price: newPrice, name: adminProducts[itemId]?.name })
+      body: JSON.stringify({
+        price: newPrice,
+        name: adminProducts[itemId]?.name,
+        desc: adminProducts[itemId]?.desc,
+        category: adminProducts[itemId]?.category,
+        img: adminProducts[itemId]?.img
+      })
     });
   } catch (err) {
     console.warn('API rate save warning:', err);
@@ -366,7 +382,104 @@ async function saveProductRate(itemId) {
 
   // Update local storage so storefront picks up new pricing immediately
   localStorage.setItem('whip_whisk_catalog_rates', JSON.stringify(adminProducts));
+  localStorage.setItem('whip_whisk_products', JSON.stringify(adminProducts));
   alert(`✅ Rate updated for ${adminProducts[itemId]?.name || itemId} to ₹${newPrice.toFixed(2)}`);
+  renderProductsRateGrid();
+}
+
+// Add New Cake / Item Modal Controllers
+function openAddProductModal() {
+  const modal = document.getElementById('addProductModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    document.getElementById('newProdName')?.focus();
+  }
+}
+
+function closeAddProductModal() {
+  const modal = document.getElementById('addProductModal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.getElementById('addProductForm')?.reset();
+    const customImgInput = document.getElementById('newProdImgCustom');
+    if (customImgInput) customImgInput.style.display = 'none';
+  }
+}
+
+function handleImagePresetChange(val) {
+  const customImgInput = document.getElementById('newProdImgCustom');
+  if (customImgInput) {
+    customImgInput.style.display = (val === 'custom') ? 'block' : 'none';
+    if (val === 'custom') customImgInput.focus();
+  }
+}
+
+async function handleCreateProduct(event) {
+  event.preventDefault();
+  const name = document.getElementById('newProdName').value.trim();
+  const price = parseFloat(document.getElementById('newProdPrice').value);
+  const category = document.getElementById('newProdCategory').value;
+  const presetImg = document.getElementById('newProdImgPreset').value;
+  const customImg = document.getElementById('newProdImgCustom').value.trim();
+  const desc = document.getElementById('newProdDesc').value.trim();
+
+  if (!name || isNaN(price) || price <= 0) {
+    return alert('Please enter a valid item name and price.');
+  }
+
+  const finalImg = (presetImg === 'custom' && customImg) ? customImg : presetImg;
+  const id = 'cake-' + Date.now().toString(36);
+
+  const newProduct = {
+    id,
+    name,
+    price,
+    img: finalImg,
+    desc,
+    category
+  };
+
+  adminProducts[id] = newProduct;
+
+  // Persist locally
+  localStorage.setItem('whip_whisk_catalog_rates', JSON.stringify(adminProducts));
+  localStorage.setItem('whip_whisk_products', JSON.stringify(adminProducts));
+
+  // Sync with API
+  try {
+    await fetch(`/api/products/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newProduct)
+    });
+  } catch (err) {
+    console.warn('API product add notice:', err);
+  }
+
+  closeAddProductModal();
+  renderProductsRateGrid();
+  alert(`🎉 "${name}" added to your storefront catalog for ₹${price.toFixed(2)}!`);
+}
+
+async function deleteProductRate(itemId) {
+  const item = adminProducts[itemId];
+  const itemName = item ? item.name : itemId;
+  if (!confirm(`Are you sure you want to remove "${itemName}" from your storefront?`)) {
+    return;
+  }
+
+  delete adminProducts[itemId];
+  localStorage.setItem('whip_whisk_catalog_rates', JSON.stringify(adminProducts));
+  localStorage.setItem('whip_whisk_products', JSON.stringify(adminProducts));
+
+  try {
+    await fetch(`/api/products/${itemId}`, {
+      method: 'DELETE'
+    });
+  } catch (err) {
+    console.warn('API product delete notice:', err);
+  }
+
   renderProductsRateGrid();
 }
 
